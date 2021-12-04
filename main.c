@@ -1,114 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adben-mc <adben-mc@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 16:53:14 by adben-mc          #+#    #+#             */
-/*   Updated: 2021/12/04 20:58:29 by adben-mc         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "ft_printf.h"
-
-void ft_parameters(char c, va_list ap, int *i)
-{
-	if (c == 'c')
-		return (ft_putchar((char)va_arg(ap, int), i));
-	else if (c == 's')
-		return (ft_putstr(va_arg(ap, char *), i));
-	else if (c == 'p')
-		return (ft_pointer(va_arg(ap, unsigned long int), i));
-	else if (c == 'd' || c == 'i')
-		return (ft_putnbr(va_arg(ap, int), i));
-	else if (c == 'u')
-		return (ft_putunbr(va_arg(ap, unsigned int), i));
-	else if (c == 'x')
-		return (ft_convert(va_arg(ap, int), i, 0));
-	else if (c == 'X')
-		return (ft_convert(va_arg(ap, int), i, 1));
-	else
-		ft_putchar('%', i);
-}
-
-int ft_printf(const char *fmt, ...)
-{
-    va_list ap;
-    int i;
-	int x;
-
-	i = 0;
-	x = 0;
-    va_start(ap, fmt);
-    while (fmt[x])
-	{
-	    if (fmt[x] == '%')
-		{
-			ft_parameters(fmt[x + 1], ap, &i);
-			x += 2;
-		}
-		else
-			ft_putchar(fmt[x++], &i);
-	}
-	va_end(ap);
-	return (i);
-}
-
-/*
-#include <stdio.h>
-
-int main()
-{
-
-	printf("%c", '0');
-	printf(" %c ", '0');
-	printf(" %c", '0' - 256);
-	printf("%c ", '0' + 256);
-	printf(" %c %c %c ", '0', 0, '1');
-	printf(" %c %c %c ", ' ', ' ', ' ');
-	printf(" %c %c %c ", '1', '2', '3');
-	printf(" %c %c %c ", '2', '1', 0);
-	printf(" %c %c %c \n\n", 0, '1', '2');
-
-	printf(" %p ", -1);
-	printf(" %p ", 1);
-	printf(" %p ", 15);
-	printf(" %p ", 16);
-	printf(" %p \n\n", 17);
-
-	printf(" %x ", 0);
-	printf(" %x ", -1);
-	printf(" %x ", 1);
-	printf(" %x ", 9);
-	printf(" %x ", 10);
-	printf(" %x ", 11);
-	printf(" %x ", 15);
-	printf(" %x ", 16);
-	printf(" %x ", 17);
-	printf(" %x ", 99);
-	printf(" %x ", 100);
-	printf(" %x ", 101);
-	printf(" %x ", -9);
-	printf(" %x ", -10);
-	printf(" %x ", -11);
-	printf(" %x ", -14);
-	printf(" %x ", -15);
-	printf(" %x ", -16);
-	printf(" %x ", -99);
-	printf(" %x ", -100);
-	printf(" %x ", -101);
-}
-
 #include <stdio.h>
 #include <stdlib.h>
+
+int	ft_printf(const char *format, ...);
 
 int	main()
 {
 	printf("Comparez les résultats (V = Vrai printf, F = ft_printf)\n");
 	printf("La valeur indiquée dérrière le | est la valeur de retour\n");
 
-	printf("---------- Test char format ----------\n");
+	/*printf("---------- Test char format ----------\n");
 	printf("           Test 1\n");
 	printf("| %i (V)\n", printf("%c", 'a'));
 	printf("| %i (F)\n",ft_printf("%c", 'a'));
@@ -192,7 +92,7 @@ int	main()
 	printf("           Test 5\n");
 	printf("| %i (V)\n", printf("%lu", 3147483648));
 	printf("| %i (F)\n", ft_printf("%u", 3147483648));
-
+*/
 	printf("\n---------- Test hexa lowcase format ----------\n");
 	printf("           Test 1\n");
 	printf("| %i (V)\n", printf("%x", 0));
@@ -226,7 +126,7 @@ int	main()
 	printf("           Test 5\n");
 	printf("| %i (V)\n", printf("%X", 1125421));
 	printf("| %i (F)\n", ft_printf("%X", 1125421));
-
+/*
 	printf("\n---------- Test percent format ----------\n");
 	printf("           Test 1\n");
 	printf("| %i (V)\n", printf("%%"));
@@ -242,5 +142,5 @@ int	main()
 	printf("           Test 3\n");
 	printf("| %i (V)\n", printf("Si j'ai %i%% de %s dans mon panier.\nIl faut que j'achète %d %s", 18, "patate", 5, "pastèques"));
 	printf("| %i (F)\n", ft_printf("Si j'ai %i%% de %s dans mon panier.\nIl faut que j'achète %d %s", 18, "patate", 5, "pastèques"));
-
-}*/
+*/
+}

@@ -6,52 +6,41 @@
 /*   By: adben-mc <adben-mc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:18:39 by adben-mc          #+#    #+#             */
-/*   Updated: 2021/12/03 19:02:31 by adben-mc         ###   ########.fr       */
+/*   Updated: 2021/12/04 21:04:14 by adben-mc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_size(long nb)
+void	ft_puthex(int nb, int *val, char *base)
 {
-	int	i;
+	long int	nbr;
+	int			length;
+	long int	cpy;
 
-	i = 0;
-	if (nb <= 0)
+	length = 1;
+	nbr = nb;
+	if (nb < 0)
 	{
-		nb = -nb;
-		i += 1;
+		nbr *= -1;
+		ft_putchar('-', val);
+		length++;
 	}
-	while (nb)
+	cpy = nbr;
+	while (cpy >= 16)
 	{
-		nb = nb / 10;
-		i++;
+		cpy /= 16;
+		length++;
 	}
-	return (i);
+	if (nbr >= 16)
+		ft_puthex(nbr / 16, val, base);
+	ft_putchar(base[nbr % 16], val);
 }
 
-char	*ft_hexa(long nbr, char *conv, int size, int pos)
+void ft_convert(int nbr, int *val, int maj)
 {
-	char	*base;
-
-	base = "0123456789abcdef";
-	if (nbr / 16 > 0 && pos < size)
-		ft_hexa(nbr / 16, conv, size, pos + 1);
-	conv[size - pos] = base[nbr % 16];
-	return (conv);
-}
-
-void ft_convert(long nbr, int *i, int maj)
-{
-	char *str;
-
-	str = malloc(sizeof(char) * (ft_size(nbr) + 1));
-	if (!str)
-		return ;
-	str = ft_hexa(nbr, str, ft_size(nbr), 0);
 	if (maj == 0)
-		ft_putstr(str, i);
+		ft_puthex(nbr, val, "0123456789abcdef");
 	else
-		ft_putstr(ft_strupcase(str), i);
-	free(str);	
+		ft_puthex(nbr, val, "0123456789ABCDEF");
 }

@@ -4,7 +4,8 @@ SRCS	=	ft_printf.c		\
 			ft_putnbr.c		\
 			ft_putunbr.c	\
 			ft_strupcase.c	\
-			ft_putchar.c
+			ft_putchar.c	\
+			ft_pointer.c
 
 OBJS	= 	${SRCS:.c=.o}
 
@@ -15,7 +16,7 @@ RM		=	rm -f
 CFLAGS	=	-Wall -Werror -Wextra
 
 .c.o:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c -g3 $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS}
 			ar -rcs $(NAME) $(OBJS)

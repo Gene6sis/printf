@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_pointer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adben-mc <adben-mc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:13:15 by adben-mc          #+#    #+#             */
-/*   Updated: 2021/12/04 16:28:29 by adben-mc         ###   ########.fr       */
+/*   Created: 2021/12/04 16:48:17 by adben-mc          #+#    #+#             */
+/*   Updated: 2021/12/04 18:32:39 by adben-mc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putstr(char *str, int *val)
+void	ft_base_hex(unsigned long int nb, int *val)
 {
-	int	i;
+	const char	*base = "0123456789abcdef";
 
-	i = 0;
-	if (!str)
+	if (nb <= 15)
+		ft_putchar(base[nb % 16], val);
+	if (nb > 15)
 	{
-		ft_putstr("(null)", val);
+		ft_base_hex(nb / 16, val);
+		ft_putchar(base[nb % 16], val);
+	}
+}
+
+void	ft_pointer(unsigned long int addr, int *val)
+{
+	if (addr == 0)
+	{
+		ft_putstr("0x0", val);
 		return ;
 	}
-	while (str[i])
-		write(1, &str[i++], 1);
-	*val = *val + i;
+	ft_putstr("0x", val);
+	ft_base_hex(addr, val);
 }
